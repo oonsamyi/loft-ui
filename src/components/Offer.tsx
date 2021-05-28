@@ -19,7 +19,12 @@ export const Offer = ({ offer }: IProps) => {
       </Box>
 
       {offer.images && (
-        <img src={offer.images[0]} width="100%" height="310px" />
+        <img
+          src={offer.images[0]}
+          width="100%"
+          height="310px"
+          style={{ objectFit: 'cover' }}
+        />
       )}
       <Box p="20px" display="flex" justifyContent="space-between">
         <Box display="flex" flexDirection="column">
