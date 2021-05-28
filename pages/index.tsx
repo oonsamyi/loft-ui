@@ -1,4 +1,5 @@
 import { Box, Button, CircularProgress, Grid } from '@material-ui/core'
+import { add, set } from 'date-fns'
 import React, { useCallback, useState } from 'react'
 import { httpClient } from '../src/api'
 import { DateFiler } from '../src/components/DateFiler'
@@ -11,10 +12,13 @@ import { IDate, IPrice, ISquare } from '../src/types'
 import { IRealtyObjectViewModel } from '../swagger/Api'
 
 export default function MainPage() {
+  const from = set(new Date(), { minutes: 0 })
+  const to = add(from, { hours: 2 })
+
   const [districts, setDistricts] = useState<string[]>([])
-  const [date, setDate] = useState<IDate>({ from: null, to: null })
+  const [date, setDate] = useState<IDate>({ from, to })
   const [squares, setSquares] = useState<ISquare[]>([])
-  const [price, setPrice] = useState<IPrice>({})
+  const [price, setPrice] = useState<IPrice>({ from: 1000, to: 5000 })
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [offers, setOffers] = useState<IRealtyObjectViewModel[]>([])
 
@@ -87,7 +91,7 @@ export default function MainPage() {
                   zIndex={1}
                 />
               )}
-              <Offer offer={offer} />
+              <Offer offer={offer} date={date} />
             </Box>
           ))}
         </Box>
