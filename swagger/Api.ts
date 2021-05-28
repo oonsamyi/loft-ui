@@ -9,6 +9,11 @@
  * ---------------------------------------------------------------
  */
 
+export interface IAddClientRequest {
+  phone: string;
+  name?: string | null;
+}
+
 export interface IBookingResult {
   /** @format date-time */
   from?: string;
@@ -85,10 +90,10 @@ export interface IObjectImage {
 }
 
 export interface IObjectsFilter {
-  square?: ISquareFilter;
+  square?: ISquareFilter[] | null;
   price?: IPriceFilter;
   date?: IDateFilter;
-  region?: string | null;
+  regions?: string[] | null;
 }
 
 /**
@@ -130,6 +135,7 @@ export interface IRealtyClient {
   /** @format int32 */
   id?: number;
   name?: string | null;
+  phone?: string | null;
   bookings?: IRealtyBooking[] | null;
 }
 
@@ -532,6 +538,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Client
+     * @name ClientCreate
+     * @request POST:/api/Client
+     */
+    clientCreate: (data: IAddClientRequest, params: RequestParams = {}) =>
+      this.request<IRealtyClient, any>({
+        path: `/api/Client`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Object
      * @name ObjectGetAllList
      * @request GET:/api/Object/get-all
@@ -588,6 +611,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/Price/${id}`,
         method: "GET",
         format: "json",
+        ...params,
+      }),
+  };
+  controller = {
+    /**
+     * No description
+     *
+     * @tags Owner
+     * @name Calendar
+     * @request GET:/{controller}/object/{id}/bookings
+     */
+    calendar: (id: number, controller: string, query?: { date?: string }, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/${controller}/object/${id}/bookings`,
+        method: "GET",
+        query: query,
         ...params,
       }),
   };

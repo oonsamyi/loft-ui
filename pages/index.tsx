@@ -27,10 +27,10 @@ export default function MainPage() {
     }
 
     const response = await httpClient.api.objectFindCreate({
-      square: squares[0],
+      square: squares.length ? squares : null,
       price,
       date: parsedDate,
-      region: districts[0],
+      regions: districts.length ? districts : null,
     })
 
     setIsLoading(false)
