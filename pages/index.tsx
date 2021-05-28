@@ -1,9 +1,10 @@
-import { Box, Button, CircularProgress } from '@material-ui/core'
+import { Box, Button, CircularProgress, Grid } from '@material-ui/core'
 import React, { useCallback, useState } from 'react'
 import { httpClient } from '../src/api'
 import { DateFiler } from '../src/components/DateFiler'
 import { DistrictFilter } from '../src/components/DistrictFilter'
 import { Filter } from '../src/components/Filter'
+import { Offer } from '../src/components/Offer'
 import { PriceFilter } from '../src/components/PriceFilter'
 import { SquareFilter } from '../src/components/SquareFilter'
 import { IDate, IPrice, ISquare } from '../src/types'
@@ -33,36 +34,64 @@ export default function MainPage() {
     })
 
     setIsLoading(false)
-
     setOffers(response.data)
   }, [squares, price, date, districts, setIsLoading, setOffers])
 
   return (
-    <Box mt="100px" display="flex" justifyContent="center">
-      <Box>
-        <DistrictFilter districts={districts} onChange={setDistricts} />
-        <DateFiler date={date} onChange={setDate} />
-        <SquareFilter squares={squares} onChange={setSquares} />
-        <PriceFilter price={price} onChange={setPrice} />
+    <>
+      <Box mt="100px" display="flex" flexDirection="column" alignItems="center">
+        <Box>
+          <DistrictFilter districts={districts} onChange={setDistricts} />
+          <DateFiler date={date} onChange={setDate} />
+          <SquareFilter squares={squares} onChange={setSquares} />
+          <PriceFilter price={price} onChange={setPrice} />
 
-        <Filter label="">
-          <Box width="440px">
-            <Button
-              color="primary"
-              variant="contained"
-              size="large"
-              fullWidth
-              onClick={handleSearchClick}
-            >
-              {isLoading ? (
-                <CircularProgress size={26} color="secondary" />
-              ) : (
-                'Найти лофты'
-              )}
-            </Button>
-          </Box>
-        </Filter>
+          <Filter label="">
+            <Box width="440px">
+              <Button
+                color="primary"
+                variant="contained"
+                size="large"
+                fullWidth
+                onClick={handleSearchClick}
+              >
+                {isLoading ? (
+                  <CircularProgress size={26} color="secondary" />
+                ) : (
+                  'Найти лофты'
+                )}
+              </Button>
+            </Box>
+          </Filter>
+        </Box>
       </Box>
-    </Box>
+
+      {offers.length && (
+        <Box
+          display="grid"
+          gridTemplateColumns="minmax(auto, 690px) minmax(auto, 690px)"
+          gridTemplateRows="auto"
+          gridGap="18px 12px"
+          justifyContent="center"
+          mx="20px"
+          mb="20px"
+        >
+          {offers.map((offer) => (
+            <Box key={offer.id} position="relative">
+              {isLoading && (
+                <Box
+                  position="absolute"
+                  width="100%"
+                  height="100%"
+                  bgcolor="rgba(242, 242, 242, 0.4)"
+                  zIndex={1}
+                />
+              )}
+              <Offer offer={offer} />
+            </Box>
+          ))}
+        </Box>
+      )}
+    </>
   )
 }
