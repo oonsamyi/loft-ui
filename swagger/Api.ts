@@ -25,6 +25,7 @@ export interface IBookingResult {
   price?: number;
   clientName?: string | null;
   title?: string | null;
+  address?: string | null;
 
   /** @format int32 */
   id?: number;

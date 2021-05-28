@@ -479,6 +479,10 @@
             "type": "string",
             "nullable": true
           },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
           "id": {
             "type": "integer",
             "format": "int32"
