@@ -4,25 +4,13 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { theme } from '../src/theme'
 import type { AppProps } from 'next/app'
-import {
-  AppBar,
-  Link,
-  makeStyles,
-  Toolbar,
-  Typography,
-} from '@material-ui/core'
-import NextLink from 'next/link'
-
-const useStyles = makeStyles({
-  link: {
-    color: 'white',
-  },
-})
+import { Box, makeStyles } from '@material-ui/core'
+import { Logo } from '../src/components/Logo'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns'
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props
-
-  const styles = useStyles()
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -36,7 +24,7 @@ export default function MyApp(props: AppProps) {
   return (
     <React.Fragment>
       <Head>
-        <title>Hourly Rent</title>
+        <title>Циан.Лофт</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
@@ -45,18 +33,13 @@ export default function MyApp(props: AppProps) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <AppBar position="static">
-          <Toolbar>
-            <NextLink href="/" passHref>
-              <Link>
-                <Typography variant="h6" className={styles.link}>
-                  Hourly Rent
-                </Typography>
-              </Link>
-            </NextLink>
-          </Toolbar>
-        </AppBar>
-        <Component {...pageProps} />
+
+        <Box mt="28px" display="flex" justifyContent="center">
+          <Logo />
+        </Box>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <Component {...pageProps} />
+        </MuiPickersUtilsProvider>
       </ThemeProvider>
     </React.Fragment>
   )

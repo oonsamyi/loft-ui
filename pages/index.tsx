@@ -1,23 +1,49 @@
-import React from 'react'
-import NextLink from 'next/link'
-import Container from '@material-ui/core/Container'
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
-import { Button } from '@material-ui/core'
+import { Box, Button, CircularProgress } from '@material-ui/core'
+import React, { useCallback, useState } from 'react'
+import { DateFiler } from '../src/components/DateFiler'
+import { DistrictFilter } from '../src/components/DistrictFilter'
+import { Filter } from '../src/components/Filter'
+import { PriceFilter } from '../src/components/PriceFilter'
+import { SquareFilter } from '../src/components/SquareFilter'
+import { IDate, IPrice, ISquare } from '../src/types'
 
-export default function Index() {
+export default function MainPage() {
+  const [districts, setDistricts] = useState<string[]>([])
+  const [date, setDate] = useState<IDate>({ from: null, to: null })
+  const [squares, setSquares] = useState<ISquare[]>([])
+  const [price, setPrice] = useState<IPrice>({})
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const handleSearchClick = useCallback(() => {
+    setIsLoading(true)
+  }, [setIsLoading])
+
   return (
-    <Container maxWidth="sm">
-      <Box my={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Главная страница
-        </Typography>
-        <NextLink href="/test" passHref>
-          <Button variant="contained" color="primary">
-            На тестовую
-          </Button>
-        </NextLink>
+    <Box mt="100px" display="flex" justifyContent="center">
+      <Box>
+        <DistrictFilter districts={districts} onChange={setDistricts} />
+        <DateFiler date={date} onChange={setDate} />
+        <SquareFilter squares={squares} onChange={setSquares} />
+        <PriceFilter price={price} onChange={setPrice} />
+
+        <Filter label="">
+          <Box width="440px">
+            <Button
+              color="primary"
+              variant="contained"
+              size="large"
+              fullWidth
+              onClick={handleSearchClick}
+            >
+              {isLoading ? (
+                <CircularProgress size={26} color="secondary" />
+              ) : (
+                'Найти лофты'
+              )}
+            </Button>
+          </Box>
+        </Filter>
       </Box>
-    </Container>
+    </Box>
   )
 }

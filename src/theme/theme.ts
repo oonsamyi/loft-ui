@@ -6,10 +6,10 @@ export const theme = createMuiTheme({
   palette: {
     type: 'light',
     primary: {
-      main: '#1e30e6',
+      main: '#0468FF',
     },
     secondary: {
-      main: '#f50057',
+      main: '#F1F2F4',
     },
   },
 })
