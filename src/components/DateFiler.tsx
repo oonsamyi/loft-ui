@@ -26,7 +26,7 @@ export const DateFiler = ({ date, onChange }: IProps) => {
 
   return (
     <Filter label="Когда">
-      <Box>
+      <Box width="220px">
         <KeyboardDateTimePicker
           label="С"
           inputVariant="filled"
@@ -35,10 +35,11 @@ export const DateFiler = ({ date, onChange }: IProps) => {
           ampm={false}
           format="dd/MM/yyyy HH:mm"
           invalidDateMessage=""
+          minutesStep={60}
           onChange={handleDateFromChange}
         />
       </Box>
-      <Box ml="16px">
+      <Box ml="16px" width="220px">
         <KeyboardDateTimePicker
           label="По"
           inputVariant="filled"
@@ -47,6 +48,7 @@ export const DateFiler = ({ date, onChange }: IProps) => {
           ampm={false}
           format="dd/MM/yyyy HH:mm"
           invalidDateMessage=""
+          minutesStep={60}
           onChange={handleDateToChange}
         />
       </Box>
