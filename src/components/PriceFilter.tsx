@@ -38,15 +38,19 @@ export const PriceFilter = ({ price, onChange }: IProps) => {
           label="От"
           size="small"
           variant="filled"
+          type="number"
+          inputProps={{ step: 500, min: 0 }}
           onChange={handlePriceFromChange}
         />
       </Box>
       <Box ml="16px" width="120px">
         <TextField
+          value={price.to || ''}
           label="До"
           size="small"
-          value={price.to || ''}
           variant="filled"
+          type="number"
+          inputProps={{ step: 500, min: 0 }}
           onChange={handlePriceToChange}
         />
       </Box>
