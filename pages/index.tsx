@@ -1,6 +1,6 @@
 import { Box, Button, CircularProgress, Link, Theme } from '@material-ui/core'
 import { add, set } from 'date-fns'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import NextLink from 'next/link'
 import { httpClient } from '../src/api'
 import { DateFiler } from '../src/components/DateFiler'
@@ -46,6 +46,10 @@ export default function MainPage() {
     setIsLoading(false)
     setOffers(response.data)
   }, [squares, price, date, districts, services, setIsLoading, setOffers])
+
+  useEffect(() => {
+    handleSearchClick()
+  }, [])
 
   return (
     <>
