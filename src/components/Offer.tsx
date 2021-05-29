@@ -81,6 +81,7 @@ export const Offer = ({ offer, date }: IProps) => {
 
         <BookingSuccess
           offer={offer}
+          date={date}
           isOpen={isSuccessOpen}
           onClose={handleCloseSuccess}
         />

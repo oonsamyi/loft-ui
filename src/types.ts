@@ -9,6 +9,6 @@ export interface IPrice {
 }
 
 export interface IDate {
-  from: Date | null
-  to: Date | null
+  from: Date
+  to: Date
 }

@@ -1,5 +1,6 @@
 import { Box } from '@material-ui/core'
-import { KeyboardDateTimePicker } from '@material-ui/pickers'
+import { DatePicker, TimePicker } from '@material-ui/pickers'
+import { set } from 'date-fns'
 import { useCallback } from 'react'
 import { IDate } from '../types'
 import { Filter } from './Filter'
@@ -10,15 +11,44 @@ interface IProps {
 }
 
 export const DateFiler = ({ date, onChange }: IProps) => {
-  const handleDateFromChange = useCallback(
+  const handleDateChange = useCallback(
+    (newDate: Date | null) => {
+      if (!newDate) {
+        return
+      }
+
+      const from = set(newDate, {
+        hours: date.from.getHours(),
+        minutes: date.from.getMinutes(),
+      })
+
+      const to = set(newDate, {
+        hours: date.to.getHours(),
+        minutes: date.to.getMinutes(),
+      })
+
+      onChange({ from, to })
+    },
+    [date, onChange]
+  )
+
+  const handleTimeFromChange = useCallback(
     (from: Date | null) => {
+      if (!from) {
+        return
+      }
+
       onChange({ ...date, from })
     },
     [date, onChange]
   )
 
-  const handleDateToChange = useCallback(
+  const handleTimeToChange = useCallback(
     (to: Date | null) => {
+      if (!to) {
+        return
+      }
+
       onChange({ ...date, to })
     },
     [date, onChange]
@@ -26,30 +56,41 @@ export const DateFiler = ({ date, onChange }: IProps) => {
 
   return (
     <Filter label="Когда">
-      <Box width="220px">
-        <KeyboardDateTimePicker
-          label="С"
+      <Box width="120px">
+        <DatePicker
+          label="День"
+          inputVariant="filled"
+          value={date.from}
+          size="small"
+          format="dd MMMM"
+          invalidDateMessage=""
+          onChange={handleDateChange}
+        />
+      </Box>
+      <Box ml="16px" width="80px">
+        <TimePicker
+          label="C"
           inputVariant="filled"
           value={date.from}
           size="small"
           ampm={false}
-          format="dd/MM/yyyy HH:mm"
+          format="HH:mm"
           invalidDateMessage=""
-          minutesStep={60}
-          onChange={handleDateFromChange}
+          minutesStep={5}
+          onChange={handleTimeFromChange}
         />
       </Box>
-      <Box ml="16px" width="220px">
-        <KeyboardDateTimePicker
+      <Box ml="16px" width="80px">
+        <TimePicker
           label="По"
           inputVariant="filled"
           value={date.to}
           size="small"
           ampm={false}
-          format="dd/MM/yyyy HH:mm"
+          format="HH:mm"
           invalidDateMessage=""
-          minutesStep={60}
-          onChange={handleDateToChange}
+          minutesStep={5}
+          onChange={handleTimeToChange}
         />
       </Box>
     </Filter>

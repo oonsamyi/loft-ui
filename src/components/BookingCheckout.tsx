@@ -13,6 +13,7 @@ import format from 'date-fns/format'
 import ru from 'date-fns/locale/ru'
 import { IDate } from '../types'
 import { httpClient } from '../api'
+import { getTotalPrice } from '../utils/getTotalPrice'
 
 interface IProps {
   isOpen: boolean
@@ -98,14 +99,12 @@ export const BookingCheckout = ({
         <hr style={{ border: '1px dashed #737A8E', marginTop: '32px' }} />
 
         <Box mt="14px" display="flex">
-          {date.from && date.to && (
-            <Box fontSize="16px" lineHeight="24px">
-              {formatDateRange(date.from, date.to)}
-            </Box>
-          )}
+          <Box fontSize="16px" lineHeight="24px">
+            {formatDateRange(date.from, date.to)}
+          </Box>
 
-          <Box fontSize="22px" lineHeight="28px" ml="auto">
-            {offer.price} ₽/час
+          <Box fontSize="22px" lineHeight="28px" ml="auto" fontWeight="500">
+            {getTotalPrice(offer.price || 0, date)} ₽
           </Box>
         </Box>
 
@@ -131,7 +130,7 @@ export const BookingCheckout = ({
 }
 
 function formatDateRange(from: Date, to: Date) {
-  return `${formatDate(from)}, ${formatTime(from)}-${formatTime(to)}`
+  return `${formatDate(from)}, ${formatTime(from)} - ${formatTime(to)}`
 }
 
 function formatDate(date: Date) {

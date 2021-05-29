@@ -2,16 +2,19 @@ import { Box, Button, Dialog, IconButton } from '@material-ui/core'
 import { useCallback } from 'react'
 import { IRealtyObjectViewModel } from '../../swagger/Api'
 import CloseIcon from '@material-ui/icons/Close'
+import { getTotalPrice } from '../utils/getTotalPrice'
+import { IDate } from '../types'
 
 interface IProps {
   isOpen: boolean
   offer: IRealtyObjectViewModel
+  date: IDate
   onClose(): void
 }
 
 const LK_LINK = 'https://hourlyrent.azurewebsites.net/ClientAdmin/ObjectList'
 
-export const BookingSuccess = ({ isOpen, offer, onClose }: IProps) => {
+export const BookingSuccess = ({ isOpen, offer, date, onClose }: IProps) => {
   const handleRedirectToLk = useCallback(() => {
     window.location.href = LK_LINK
   }, [])
@@ -45,7 +48,7 @@ export const BookingSuccess = ({ isOpen, offer, onClose }: IProps) => {
         </Box>
 
         <Box fontSize="16px" lineHeight="24px">
-          {offer.price} ₽/час
+          {getTotalPrice(offer.price || 0, date)} ₽
         </Box>
 
         <Box mt="40px" width="278px">
