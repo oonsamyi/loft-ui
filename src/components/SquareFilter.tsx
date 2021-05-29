@@ -1,5 +1,6 @@
 import { Box, Chip } from '@material-ui/core'
 import { useCallback } from 'react'
+import { useMobile } from '../hooks/useMobile'
 import { ISquare } from '../types'
 import { Filter } from './Filter'
 
@@ -17,6 +18,8 @@ const SQUARES: ISquare[] = [
 ]
 
 export const SquareFilter = ({ squares, onChange }: IProps) => {
+  const isMobile = useMobile()
+
   const addSquare = useCallback(
     (square) => {
       const newSquares = [...squares, square]
@@ -44,20 +47,27 @@ export const SquareFilter = ({ squares, onChange }: IProps) => {
 
   return (
     <Filter label="Площадь">
-      {SQUARES.map((square) => {
-        const label = formatSquare(square)
-        const isSelected = squares.includes(square)
+      <Box display="flex" flexWrap={isMobile ? 'wrap' : undefined}>
+        {SQUARES.map((square) => {
+          const label = formatSquare(square)
+          const isSelected = squares.includes(square)
 
-        return (
-          <Box key={label} component="span" mr="4px">
-            <Chip
-              label={label}
-              color={isSelected ? 'primary' : 'default'}
-              onClick={handleClickSquare(square)}
-            />
-          </Box>
-        )
-      })}
+          return (
+            <Box
+              key={label}
+              component="span"
+              mr="4px"
+              mt={isMobile ? '4px' : undefined}
+            >
+              <Chip
+                label={label}
+                color={isSelected ? 'primary' : 'default'}
+                onClick={handleClickSquare(square)}
+              />
+            </Box>
+          )
+        })}
+      </Box>
     </Filter>
   )
 }

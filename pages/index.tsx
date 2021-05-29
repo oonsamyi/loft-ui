@@ -1,13 +1,16 @@
-import { Box, Button, CircularProgress, Grid } from '@material-ui/core'
+import { Box, Button, CircularProgress, Link, Theme } from '@material-ui/core'
 import { add, set } from 'date-fns'
 import React, { useCallback, useState } from 'react'
+import NextLink from 'next/link'
 import { httpClient } from '../src/api'
 import { DateFiler } from '../src/components/DateFiler'
 import { DistrictFilter } from '../src/components/DistrictFilter'
 import { Filter } from '../src/components/Filter'
+import { Logo } from '../src/components/Logo'
 import { Offer } from '../src/components/Offer'
 import { PriceFilter } from '../src/components/PriceFilter'
 import { SquareFilter } from '../src/components/SquareFilter'
+import { useMobile } from '../src/hooks/useMobile'
 import { IDate, IPrice, ISquare } from '../src/types'
 import { IRealtyObjectViewModel } from '../swagger/Api'
 
@@ -22,6 +25,8 @@ export default function MainPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [offers, setOffers] = useState<IRealtyObjectViewModel[]>([])
   const [services, setServices] = useState<number[]>([])
+
+  const isMobile = useMobile()
 
   const handleSearchClick = useCallback(async () => {
     setIsLoading(true)
@@ -44,7 +49,24 @@ export default function MainPage() {
 
   return (
     <>
-      <Box mt="100px" display="flex" flexDirection="column" alignItems="center">
+      <Box
+        mt={isMobile ? '10px' : '28px'}
+        display="flex"
+        justifyContent="center"
+      >
+        <NextLink href="/" passHref>
+          <Link color="secondary">
+            <Logo />
+          </Link>
+        </NextLink>
+      </Box>
+      <Box
+        mt={isMobile ? '50px' : '100px'}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        px="20px"
+      >
         <Box>
           <DistrictFilter districts={districts} onChange={setDistricts} />
           <DateFiler date={date} onChange={setDate} />
@@ -52,7 +74,7 @@ export default function MainPage() {
           <PriceFilter price={price} onChange={setPrice} />
 
           <Filter label="">
-            <Box width="440px">
+            <Box width={isMobile ? '100%' : '440px'}>
               <Button
                 color="primary"
                 variant="contained"
@@ -71,10 +93,12 @@ export default function MainPage() {
         </Box>
       </Box>
 
-      {offers.length && (
+      {!!offers.length && (
         <Box
           display="grid"
-          gridTemplateColumns="minmax(auto, 690px) minmax(auto, 690px)"
+          gridTemplateColumns={
+            isMobile ? '1fr' : 'minmax(auto, 690px) minmax(auto, 690px)'
+          }
           gridTemplateRows="auto"
           gridGap="18px 12px"
           justifyContent="center"

@@ -2,6 +2,7 @@ import { Box } from '@material-ui/core'
 import { DatePicker, TimePicker } from '@material-ui/pickers'
 import { set } from 'date-fns'
 import { useCallback } from 'react'
+import { useMobile } from '../hooks/useMobile'
 import { IDate } from '../types'
 import { Filter } from './Filter'
 
@@ -11,6 +12,8 @@ interface IProps {
 }
 
 export const DateFiler = ({ date, onChange }: IProps) => {
+  const isMobile = useMobile()
+
   const handleDateChange = useCallback(
     (newDate: Date | null) => {
       if (!newDate) {
@@ -56,7 +59,7 @@ export const DateFiler = ({ date, onChange }: IProps) => {
 
   return (
     <Filter label="Когда">
-      <Box width="120px">
+      <Box width={isMobile ? '90px' : '120px'}>
         <DatePicker
           label="День"
           inputVariant="filled"

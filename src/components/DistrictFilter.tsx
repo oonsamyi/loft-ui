@@ -1,5 +1,6 @@
 import { Box, Chip } from '@material-ui/core'
 import { useCallback, useState } from 'react'
+import { useMobile } from '../hooks/useMobile'
 import { Filter } from './Filter'
 
 interface IProps {
@@ -20,6 +21,8 @@ const ALL_DISTRICTS = [
 ]
 
 export const DistrictFilter = ({ districts, onChange }: IProps) => {
+  const isMobile = useMobile()
+
   const addDistrict = useCallback(
     (district) => {
       const newDistricts = [...districts, district]
@@ -47,19 +50,21 @@ export const DistrictFilter = ({ districts, onChange }: IProps) => {
 
   return (
     <Filter label="Где">
-      {ALL_DISTRICTS.map((district) => {
-        const isSelected = districts.includes(district)
+      <Box display="flex" flexWrap={isMobile ? 'wrap' : undefined}>
+        {ALL_DISTRICTS.map((district) => {
+          const isSelected = districts.includes(district)
 
-        return (
-          <Box key={district} component="span" mr="4px">
-            <Chip
-              label={district}
-              color={isSelected ? 'primary' : 'default'}
-              onClick={handleClickDistrict(district)}
-            />
-          </Box>
-        )
-      })}
+          return (
+            <Box key={district} mr="4px" mt={isMobile ? '4px' : undefined}>
+              <Chip
+                label={district}
+                color={isSelected ? 'primary' : 'default'}
+                onClick={handleClickDistrict(district)}
+              />
+            </Box>
+          )
+        })}
+      </Box>
     </Filter>
   )
 }

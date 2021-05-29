@@ -4,6 +4,7 @@ import { IRealtyObjectViewModel } from '../../swagger/Api'
 import CloseIcon from '@material-ui/icons/Close'
 import { getTotalPrice } from '../utils/getTotalPrice'
 import { IDate } from '../types'
+import { useMobile } from '../hooks/useMobile'
 
 interface IProps {
   isOpen: boolean
@@ -22,15 +23,22 @@ export const BookingSuccess = ({
   services,
   onClose,
 }: IProps) => {
+  const isMobile = useMobile()
+
   const handleRedirectToLk = useCallback(() => {
     window.location.href = LK_LINK
   }, [])
 
   return (
-    <Dialog onClose={onClose} open={isOpen} maxWidth={false}>
+    <Dialog
+      onClose={onClose}
+      open={isOpen}
+      maxWidth={false}
+      fullScreen={isMobile}
+    >
       <Box
-        p="40px"
-        width="506px"
+        padding={isMobile ? '12px' : '40px'}
+        width={isMobile ? undefined : '506px'}
         position="relative"
         display="flex"
         flexDirection="column"
@@ -46,7 +54,13 @@ export const BookingSuccess = ({
           <img src="/success.png" width="180px" height="180px" />
         </Box>
 
-        <Box mt="20px" fontSize="22px" lineHeight="28px" fontWeight="500">
+        <Box
+          mt="20px"
+          fontSize="22px"
+          lineHeight="28px"
+          fontWeight="500"
+          textAlign="center"
+        >
           Лофт забронирован и оплачен
         </Box>
 

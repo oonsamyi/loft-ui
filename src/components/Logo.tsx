@@ -1,8 +1,12 @@
+import { useMobile } from '../hooks/useMobile'
+
 export const Logo = () => {
+  const isMobile = useMobile()
+
   return (
     <svg
-      width="317"
-      height="66"
+      width={isMobile ? '158' : '317'}
+      height={isMobile ? '33' : '66'}
       viewBox="0 0 317 66"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

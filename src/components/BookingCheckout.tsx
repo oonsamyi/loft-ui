@@ -15,6 +15,7 @@ import ru from 'date-fns/locale/ru'
 import { IDate } from '../types'
 import { httpClient } from '../api'
 import { getTotalPrice } from '../utils/getTotalPrice'
+import { useMobile } from '../hooks/useMobile'
 
 interface IProps {
   isOpen: boolean
@@ -36,6 +37,7 @@ export const BookingCheckout = ({
   onSuccess,
 }: IProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const isMobile = useMobile()
 
   const handleBook = useCallback(async () => {
     setIsLoading(true)
@@ -65,8 +67,17 @@ export const BookingCheckout = ({
   }
 
   return (
-    <Dialog onClose={onClose} open={isOpen} maxWidth={false}>
-      <Box pt="24px" px="44px" pb="30px" width="722px" position="relative">
+    <Dialog
+      onClose={onClose}
+      open={isOpen}
+      maxWidth={false}
+      fullScreen={isMobile}
+    >
+      <Box
+        padding={isMobile ? '12px' : '24px 44px 30px'}
+        width={isMobile ? undefined : '722px'}
+        position="relative"
+      >
         <Box position="absolute" top="5px" right="5px">
           <IconButton onClick={onClose}>
             <CloseIcon />
@@ -100,7 +111,11 @@ export const BookingCheckout = ({
         </Box>
 
         {offer.services && (
-          <Box display="flex" mt="12px">
+          <Box
+            display="flex"
+            mt="12px"
+            flexDirection={isMobile ? 'column' : undefined}
+          >
             {offer.services.map((service) => (
               <Box key={service} fontSize="16px" lineHeight="24px" mr="22px">
                 <TickIcon />
@@ -118,13 +133,19 @@ export const BookingCheckout = ({
               Платные услуги
             </Box>
 
-            <Box display="flex" mt="8px" flexWrap="wrap">
+            <Box
+              display="flex"
+              mt="8px"
+              flexWrap={isMobile ? undefined : 'wrap'}
+              flexDirection={isMobile ? 'column' : undefined}
+            >
               {offer.paidServices.map((paidService) => {
                 const checked = services.includes(paidService.id as number)
 
                 return (
                   <Box
-                    mr="32px"
+                    mr={isMobile ? undefined : '32px'}
+                    mt={isMobile ? '8px' : undefined}
                     key={paidService.id}
                     display="flex"
                     alignItems="flex-start"

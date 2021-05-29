@@ -1,6 +1,7 @@
 import { Box, Button } from '@material-ui/core'
 import { useCallback, useState } from 'react'
 import { IRealtyObjectViewModel } from '../../swagger/Api'
+import { useMobile } from '../hooks/useMobile'
 import { IDate } from '../types'
 import { BookingCheckout } from './BookingCheckout'
 import { BookingSuccess } from './BookingSuccess'
@@ -15,6 +16,7 @@ interface IProps {
 export const Offer = ({ offer, date, services, onChangeServices }: IProps) => {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState<boolean>(false)
   const [isSuccessOpen, setIsSuccessOpen] = useState<boolean>(false)
+  const isMobile = useMobile()
 
   const handleBookOffer = useCallback(() => {
     setIsCheckoutOpen(true)
@@ -54,7 +56,12 @@ export const Offer = ({ offer, date, services, onChangeServices }: IProps) => {
 
       <Box p="20px" display="flex" justifyContent="space-between">
         <Box display="flex" flexDirection="column">
-          <Box fontSize="22px" fontWeight="500" lineHeight="28px" mb="8px">
+          <Box
+            fontSize={isMobile ? '16px' : '22px'}
+            fontWeight="500"
+            lineHeight={isMobile ? '22px' : '28px'}
+            mb="8px"
+          >
             {offer.price} ₽ / час
           </Box>
           <Box fontSize="16px" lineHeight="22px">
@@ -62,11 +69,11 @@ export const Offer = ({ offer, date, services, onChangeServices }: IProps) => {
           </Box>
         </Box>
 
-        <Box width="200px">
+        <Box width="200px" my="auto">
           <Button
             color="primary"
             fullWidth
-            size="large"
+            size={isMobile ? 'small' : 'large'}
             onClick={handleBookOffer}
           >
             ЗАБРОНИРОВАТЬ

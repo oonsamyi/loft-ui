@@ -4,8 +4,6 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { theme } from '../src/theme'
 import type { AppProps } from 'next/app'
-import { Box, makeStyles } from '@material-ui/core'
-import { Logo } from '../src/components/Logo'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
 
@@ -34,9 +32,6 @@ export default function MyApp(props: AppProps) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
 
-        <Box mt="28px" display="flex" justifyContent="center">
-          <Logo />
-        </Box>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Component {...pageProps} />
         </MuiPickersUtilsProvider>

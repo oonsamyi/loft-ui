@@ -1,5 +1,6 @@
-import { Box, InputAdornment, TextField } from '@material-ui/core'
-import { ChangeEvent, ChangeEventHandler, useCallback } from 'react'
+import { Box, TextField } from '@material-ui/core'
+import { ChangeEvent, useCallback } from 'react'
+import { useMobile } from '../hooks/useMobile'
 import { IPrice } from '../types'
 import { Filter } from './Filter'
 
@@ -9,6 +10,8 @@ interface IProps {
 }
 
 export const PriceFilter = ({ price, onChange }: IProps) => {
+  const isMobile = useMobile()
+
   const handlePriceFromChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value
@@ -32,7 +35,7 @@ export const PriceFilter = ({ price, onChange }: IProps) => {
 
   return (
     <Filter label="Цена">
-      <Box width="120px">
+      <Box width={isMobile ? '90px' : '120px'}>
         <TextField
           value={price.from || ''}
           label="От"
@@ -43,7 +46,7 @@ export const PriceFilter = ({ price, onChange }: IProps) => {
           onChange={handlePriceFromChange}
         />
       </Box>
-      <Box ml="16px" width="120px">
+      <Box ml="16px" width={isMobile ? '90px' : '120px'}>
         <TextField
           value={price.to || ''}
           label="До"
