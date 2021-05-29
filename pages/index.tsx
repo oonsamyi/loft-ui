@@ -21,6 +21,7 @@ export default function MainPage() {
   const [price, setPrice] = useState<IPrice>({ from: 500, to: 5000 })
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [offers, setOffers] = useState<IRealtyObjectViewModel[]>([])
+  const [services, setServices] = useState<number[]>([])
 
   const handleSearchClick = useCallback(async () => {
     setIsLoading(true)
@@ -39,7 +40,7 @@ export default function MainPage() {
 
     setIsLoading(false)
     setOffers(response.data)
-  }, [squares, price, date, districts, setIsLoading, setOffers])
+  }, [squares, price, date, districts, services, setIsLoading, setOffers])
 
   return (
     <>
@@ -91,7 +92,13 @@ export default function MainPage() {
                   zIndex={1}
                 />
               )}
-              <Offer offer={offer} date={date} />
+
+              <Offer
+                offer={offer}
+                date={date}
+                services={services}
+                onChangeServices={setServices}
+              />
             </Box>
           ))}
         </Box>

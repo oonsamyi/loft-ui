@@ -8,9 +8,11 @@ import { BookingSuccess } from './BookingSuccess'
 interface IProps {
   offer: IRealtyObjectViewModel
   date: IDate
+  services: number[]
+  onChangeServices(services: number[]): void
 }
 
-export const Offer = ({ offer, date }: IProps) => {
+export const Offer = ({ offer, date, services, onChangeServices }: IProps) => {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState<boolean>(false)
   const [isSuccessOpen, setIsSuccessOpen] = useState<boolean>(false)
 
@@ -74,14 +76,17 @@ export const Offer = ({ offer, date }: IProps) => {
         <BookingCheckout
           offer={offer}
           date={date}
+          services={services}
           isOpen={isCheckoutOpen}
           onClose={handleCloseCheckout}
           onSuccess={handleSuccessBooking}
+          onChangeServices={onChangeServices}
         />
 
         <BookingSuccess
           offer={offer}
           date={date}
+          services={services}
           isOpen={isSuccessOpen}
           onClose={handleCloseSuccess}
         />

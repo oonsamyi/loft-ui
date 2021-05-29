@@ -9,12 +9,19 @@ interface IProps {
   isOpen: boolean
   offer: IRealtyObjectViewModel
   date: IDate
+  services: number[]
   onClose(): void
 }
 
 const LK_LINK = 'https://hourlyrent.azurewebsites.net/ClientAdmin/ObjectList'
 
-export const BookingSuccess = ({ isOpen, offer, date, onClose }: IProps) => {
+export const BookingSuccess = ({
+  isOpen,
+  offer,
+  date,
+  services,
+  onClose,
+}: IProps) => {
   const handleRedirectToLk = useCallback(() => {
     window.location.href = LK_LINK
   }, [])
@@ -48,7 +55,7 @@ export const BookingSuccess = ({ isOpen, offer, date, onClose }: IProps) => {
         </Box>
 
         <Box fontSize="16px" lineHeight="24px">
-          {getTotalPrice(offer.price || 0, date)} ₽
+          {getTotalPrice({ offer, date, services })} ₽
         </Box>
 
         <Box mt="40px" width="278px">

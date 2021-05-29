@@ -29,6 +29,7 @@ export interface IBookingResult {
 
   /** @format int32 */
   id?: number;
+  paidServices?: string[] | null;
   description?: string | null;
   image?: string | null;
 }
@@ -53,6 +54,7 @@ export interface ICreateBooking {
 
   /** @format date-time */
   to?: string;
+  paidServices?: number[] | null;
 }
 
 export interface ICreateBookingResult {
@@ -102,6 +104,26 @@ export interface IObjectsFilter {
  */
 export type IObjectType = 1;
 
+export interface IPaidService {
+  /** @format int32 */
+  id?: number;
+  title?: string | null;
+
+  /** @format double */
+  price?: number;
+  objects?: IRealtyObject[] | null;
+  bookings?: IRealtyBooking[] | null;
+}
+
+export interface IPaidServiceViewModel {
+  /** @format int32 */
+  id?: number;
+  title?: string | null;
+
+  /** @format double */
+  price?: number;
+}
+
 export interface IPriceFilter {
   /** @format double */
   from?: number | null;
@@ -130,6 +152,7 @@ export interface IRealtyBooking {
   price?: number;
   client?: IRealtyClient;
   object?: IRealtyObject;
+  paidServices?: IPaidService[] | null;
 }
 
 export interface IRealtyClient {
@@ -168,6 +191,7 @@ export interface IRealtyObject {
   bookings?: IRealtyBooking[] | null;
   prices?: IRealtyPrice[] | null;
   services?: IService[] | null;
+  paidServices?: IPaidService[] | null;
 }
 
 export interface IRealtyObjectViewModel {
@@ -200,6 +224,7 @@ export interface IRealtyObjectViewModel {
   /** @format double */
   price?: number;
   services?: string[] | null;
+  paidServices?: IPaidServiceViewModel[] | null;
 }
 
 export interface IRealtyPrice {

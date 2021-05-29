@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Checkbox,
   CircularProgress,
   Dialog,
   IconButton,
@@ -19,6 +20,8 @@ interface IProps {
   isOpen: boolean
   date: IDate
   offer: IRealtyObjectViewModel
+  services: number[]
+  onChangeServices(services: number[]): void
   onClose(): void
   onSuccess(): void
 }
@@ -27,6 +30,8 @@ export const BookingCheckout = ({
   isOpen,
   offer,
   date,
+  services,
+  onChangeServices,
   onClose,
   onSuccess,
 }: IProps) => {
@@ -42,11 +47,22 @@ export const BookingCheckout = ({
       objectId: offer.id,
       from: parsedFrom,
       to: parsedTo,
+      paidServices: services,
     })
 
     setIsLoading(false)
     onSuccess()
-  }, [offer, date, setIsLoading, onSuccess])
+  }, [offer, date, services, setIsLoading, onSuccess])
+
+  const handleAddService = (serviceId: number) => () => {
+    const isChecked = services.includes(serviceId)
+
+    const newServices = isChecked
+      ? services.filter((id) => id !== serviceId)
+      : services.concat(serviceId)
+
+    onChangeServices(newServices)
+  }
 
   return (
     <Dialog onClose={onClose} open={isOpen} maxWidth={false}>
@@ -96,6 +112,47 @@ export const BookingCheckout = ({
           </Box>
         )}
 
+        {offer.paidServices && !!offer.paidServices.length && (
+          <Box mt="28px">
+            <Box fontSize="16px" lineHeight="22px" fontWeight="500">
+              Платные услуги
+            </Box>
+
+            <Box display="flex" mt="8px" flexWrap="wrap">
+              {offer.paidServices.map((paidService) => {
+                const checked = services.includes(paidService.id as number)
+
+                return (
+                  <Box
+                    mr="32px"
+                    key={paidService.id}
+                    display="flex"
+                    alignItems="flex-start"
+                    style={{ cursor: 'pointer', userSelect: 'none' }}
+                    onClick={handleAddService(paidService.id as number)}
+                  >
+                    <Checkbox
+                      checked={checked}
+                      style={{ padding: 0 }}
+                      size="small"
+                      color="primary"
+                    />
+
+                    <Box display="flex" flexDirection="column" ml="8px">
+                      <Box fontSize="16px" lineHeight="22px">
+                        {paidService.title}
+                      </Box>
+                      <Box fontSize="16px" lineHeight="22px">
+                        {paidService.price} ₽
+                      </Box>
+                    </Box>
+                  </Box>
+                )
+              })}
+            </Box>
+          </Box>
+        )}
+
         <hr style={{ border: '1px dashed #737A8E', marginTop: '32px' }} />
 
         <Box mt="14px" display="flex">
@@ -104,7 +161,7 @@ export const BookingCheckout = ({
           </Box>
 
           <Box fontSize="22px" lineHeight="28px" ml="auto" fontWeight="500">
-            {getTotalPrice(offer.price || 0, date)} ₽
+            {getTotalPrice({ offer, date, services })} ₽
           </Box>
         </Box>
 

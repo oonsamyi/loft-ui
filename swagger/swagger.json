@@ -487,6 +487,13 @@
             "type": "integer",
             "format": "int32"
           },
+          "paidServices": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
           "description": {
             "type": "string",
             "nullable": true
@@ -530,6 +537,14 @@
           "to": {
             "type": "string",
             "format": "date-time"
+          },
+          "paidServices": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -641,6 +656,56 @@
         "type": "integer",
         "format": "int32"
       },
+      "PaidService": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "objects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RealtyObject"
+            },
+            "nullable": true
+          },
+          "bookings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RealtyBooking"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaidServiceViewModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "PriceFilter": {
         "type": "object",
         "properties": {
@@ -689,6 +754,14 @@
           },
           "object": {
             "$ref": "#/components/schemas/RealtyObject"
+          },
+          "paidServices": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaidService"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -800,6 +873,13 @@
               "$ref": "#/components/schemas/Service"
             },
             "nullable": true
+          },
+          "paidServices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaidService"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -881,6 +961,13 @@
             "type": "array",
             "items": {
               "type": "string"
+            },
+            "nullable": true
+          },
+          "paidServices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaidServiceViewModel"
             },
             "nullable": true
           }
