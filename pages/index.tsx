@@ -18,7 +18,7 @@ export default function MainPage() {
   const [districts, setDistricts] = useState<string[]>([])
   const [date, setDate] = useState<IDate>({ from, to })
   const [squares, setSquares] = useState<ISquare[]>([])
-  const [price, setPrice] = useState<IPrice>({ from: 500, to: 5000 })
+  const [price, setPrice] = useState<IPrice>({ from: 500, to: 10000 })
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [offers, setOffers] = useState<IRealtyObjectViewModel[]>([])
   const [services, setServices] = useState<number[]>([])
